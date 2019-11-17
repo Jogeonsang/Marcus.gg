@@ -1,0 +1,18 @@
+# Welcome to Serverless!
+
+service: Marcus
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello/get
+          method: get
+
+plugins:
+  - serverless-offline
