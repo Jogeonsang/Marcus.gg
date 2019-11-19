@@ -1,3 +1,6 @@
+# file
+config/config.js
+
 # package directories
 node_modules
 jspm_packages
@@ -58,6 +61,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# folder
+src/config/config.js
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -98,3 +104,4 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/intellij
+

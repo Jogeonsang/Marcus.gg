@@ -1,3 +1,6 @@
+# file
+src/config/config.js
+Marcus.gg-server/src/config/config.js
 # package directories
 node_modules
 jspm_packages
@@ -98,7 +101,3 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/intellij
-
-
-#folder
-postingImage/

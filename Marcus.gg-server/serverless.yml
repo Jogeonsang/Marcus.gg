@@ -7,12 +7,49 @@ provider:
   runtime: nodejs8.10
 
 functions:
-  hello:
-    handler: handler.hello
+  item:
+    handler: handler.LeagueOfLegendItem
     events:
       - http:
-          path: hello/get
+          path: marcus-gg/item
           method: get
+          cors: true
+  champions:
+    handler: handler.LeagueOfLegendChampion
+    events:
+      - http:
+          path: marcus-gg/champion
+          method: get
+          cors: true
+
+  summonerInfo:
+    handler: handler.SummonerInfo
+    events:
+      - http:
+          path: marcus-gg/summoner/summonerInfo/by-name/{summonerName}
+          method: get
+          cors: true
+  summonerLeagueInfo:
+    handler: handler.SummnerLeagueInfo
+    events:
+      - http:
+          path: marcus-gg/summoner/leagueInfo/by-summoner/{summonerId}
+          method: get
+          cors: true
+  summonerGameList:
+    handler: handler.SummonerGameList
+    events:
+      - http:
+          path: marcus-gg/summoner/gameList/by-account/{accountId}
+          method: get
+          cors: true
+  summonerDetailGameInfo:
+    handler: handler.SummonerDetailGameInfo
+    events:
+      - http:
+          path: marcus-gg/summoner/detailGameInfo/matches/{gameId}
+          method: get
+          cors: true
 
 plugins:
   - serverless-offline
