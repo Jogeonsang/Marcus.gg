@@ -21,7 +21,6 @@ functions:
           path: marcus-gg/champion
           method: get
           cors: true
-
   summonerInfo:
     handler: handler.SummonerInfo
     events:
