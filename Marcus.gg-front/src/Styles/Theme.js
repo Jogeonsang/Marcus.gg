@@ -6,6 +6,7 @@ export default {
     buttonColor: '#FF5859',
     buttonHoverColor: '#FF7B7D',
     mainTextColor: '#E5EBEF',
+    fontColor: '#e5ebef',
     darkGreyColor: 'rgb(121, 134, 163)',
     lightGreyColor: 'rgb(229, 235, 239)',
     yellowColor: '#F3CC57',

@@ -2,9 +2,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
+import Navigation from "./Navigation";
 
 const Routes = () => [
-    <PrviateRoutes key={2} />,
+    <>
+        <Navigation key={1}/>
+        <PrviateRoutes key={2}/>
+    </>
 ]
 
 const PrviateRoutes = () => (
