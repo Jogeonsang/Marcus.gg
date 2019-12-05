@@ -1,6 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
+const Home = () => {
+  const GameList = [
+    {path: '/lol', title: '리그 오브 레전드', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lol-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/leagueOfLegendIcon.png', isOpen: true},
+    {path: '/tft', title: '전략적 팀 전투', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/tft-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/tft-icon.png', isOpen: false},
+    {path: '/lor',title: '레전드 오브 룬테라', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lor-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lor-icon.png', isOpen: false}
+  ]
+  const [summonerName, setSummonerName] = useState('');
+  const history = useHistory();
+  const searchSummoner = (e) => {
+    e.preventDefault();
+    history.push(`/summoner/username=${summonerName}`);
+  }
+
+  const onChange = (e) => {
+    const {
+      target: { value }
+    } = e;
+    setSummonerName(value);
+  }
+    return (
+        <HomeContainer>
+            <HomeMainImg
+                src={"https://s3.ap-northeast-2.amazonaws.com/marcus.gg/kaisa_logo_darknavy_all.svg"}
+                alt="logo"
+            />
+            <FormContainer>
+                <Form onSubmit={searchSummoner}>
+                    <Input
+                      value={summonerName}
+                      onChange={onChange}
+                      placeholder="소환사 검색"
+                      type="text"
+                    />
+                    <Button>.GG</Button>
+                </Form>
+            </FormContainer>
+            <GameSelectContainer>
+              {GameList.map(list => {
+                const { path, title, gameBackground, gameIcon, isOpen } = list;
+                return (
+                  <GameSelectLink to={path} isOpen={isOpen}>
+                    <GameSelectBox gameBackground={gameBackground}/>
+                    <GameSelectBoxTitleBox>
+                      <GameSelectBoxIcon src={gameIcon} alt={""}/>
+                      <GameSelectTitle>{title}</GameSelectTitle>
+                    </GameSelectBoxTitleBox>
+                  </GameSelectLink>
+                )
+              })}
+            </GameSelectContainer>
+        </HomeContainer>
+    )
+}
+
+export default Home;
 
 const HomeContainer = styled.div`
   margin: 0 auto;
@@ -132,43 +188,3 @@ const GameSelectTitle = styled.h3`
   margin-bottom: 0.625rem;
   line-height: 1;
 `
-const Home = () => {
-  const GameList = [
-    {path: '/', title: '리그 오브 레전드', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lol-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/leagueOfLegendIcon.png', isOpen: true},
-    {path: '/', title: '전략적 팀 전투', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/tft-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/tft-icon.png', isOpen: false},
-    {path: '/',title: '레전드 오브 룬테라', gameBackground: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lor-background.png', gameIcon: 'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/lor-icon.png', isOpen: false}
-  ]
-    return (
-        <HomeContainer>
-            <HomeMainImg
-                src={"https://s3.ap-northeast-2.amazonaws.com/marcus.gg/kaisa_logo_darknavy_all.svg"}
-                alt="logo"
-            />
-            <FormContainer>
-                <Form>
-                    <Input
-                        placeholder="소환사 검색"
-                        type="text"
-                    />
-                    <Button>.GG</Button>
-                </Form>
-            </FormContainer>
-            <GameSelectContainer>
-              {GameList.map(list => {
-                const { path, title, gameBackground, gameIcon, isOpen } = list;
-                return (
-                  <GameSelectLink to={path} isOpen={isOpen}>
-                    <GameSelectBox gameBackground={gameBackground}/>
-                    <GameSelectBoxTitleBox>
-                      <GameSelectBoxIcon src={gameIcon} alt={""}/>
-                      <GameSelectTitle>{title}</GameSelectTitle>
-                    </GameSelectBoxTitleBox>
-                  </GameSelectLink>
-                )
-              })}
-            </GameSelectContainer>
-        </HomeContainer>
-    )
-}
-
-export default Home;
