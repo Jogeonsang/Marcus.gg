@@ -1,6 +1,6 @@
 # file
 config/config.js
-
+.env
 # package directories
 node_modules
 jspm_packages

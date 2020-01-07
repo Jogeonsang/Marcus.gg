@@ -4,9 +4,9 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import GlobalStyles from "./Styles/GlobalStyles";
 import Theme from './Styles/Theme';
-import Routes from "./Components/Routes";
-
+import Routes from "./Pages/Routes";
 const App = () => {
+  console.log(process.env)
   return (
       <ThemeProvider theme={Theme}>
         <GlobalStyles/>

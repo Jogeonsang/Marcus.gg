@@ -12,7 +12,7 @@ const Home = () => {
   const history = useHistory();
   const searchSummoner = (e) => {
     e.preventDefault();
-    history.push(`/summoner/username=${summonerName}`);
+    history.push(`/summoner?summonerName=${summonerName}`);
   }
 
   const onChange = (e) => {

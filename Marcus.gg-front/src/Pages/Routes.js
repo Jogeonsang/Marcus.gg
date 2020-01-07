@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
-import Navigation from "./Navigation";
+import Navigation from "../Components/Navigation";
+import Summoner from './Summoner';
 
 const onEnterDefault = () => {
-    const history = useHistory();
-    history.push('/')
+
 }
 
 const Routes = () => [
@@ -19,6 +19,7 @@ const Routes = () => [
 const PrviateRoutes = () => (
     <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/summoner" component={Summoner}/>
 
         <Route path="*" onEnter={onEnterDefault} />
     </Switch>

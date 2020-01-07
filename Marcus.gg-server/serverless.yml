@@ -25,7 +25,7 @@ functions:
     handler: handler.SummonerInfo
     events:
       - http:
-          path: marcus-gg/summoner/summonerInfo/by-name/{summonerName}
+          path: marcus-gg/summoner/summonerInfo/by-name/summonerName={summonerName}
           method: get
           cors: true
   summonerLeagueInfo:

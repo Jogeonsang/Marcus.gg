@@ -1,5 +1,32 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import styled, {css, keyframes} from "styled-components";
+
+const Navigation = ({}) => {
+    return (
+        <NavbarLayout>
+            <Navbar>
+                <NavbarLeft>
+                    <Link to={'/'}>
+                        <BrandLogo src={"https://s3.ap-northeast-2.amazonaws.com/marcus.gg/kaisa_logo_darknavy_text.svg"} alt={'logo'}/>
+                    </Link>
+                    <GameLogoBox>
+                        <GameLogo src={'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/leagueOfLegendIcon.png'} alt={'logo'} />
+                        <GameTitle>리그 오브 레전드</GameTitle>
+                    </GameLogoBox>
+                </NavbarLeft>
+                {/*<NavbarRight>
+                    <LoginBtn>
+                        로그인
+                    </LoginBtn>
+                    <img src={'s3://marcus.gg/icon-language@2x.png'} alt={""} />
+                </NavbarRight>*/}
+            </Navbar>
+        </NavbarLayout >
+    )
+}
+
+export default Navigation
 
 const NavbarLayout = styled.div`
   display: flex;
@@ -22,26 +49,26 @@ const Navbar = styled.div`
 const NavbarLeft = styled.div`
   display: flex;
   height: 100%;
-`
+`;
 
 const BrandLogo = styled.img`
   width: 90px;
   height: 100%;
   margin-right: 2rem;
-`
+`;
 
 const GameLogoBox = styled.div`
 display: flex;
 align-items: center;
 padding: 0px 8px 0px 12px;
 height: 100%;
-`
+`;
 
 const GameLogo = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 8px;
-`
+`;
 
 const GameTitle = styled.div`
   color: ${props => props.theme.fontColor}
@@ -52,7 +79,7 @@ const GameTitle = styled.div`
   line-height: 1;
   visibility: visible;
   white-space: nowrap;
-`
+`;
 const NavbarRight = styled.div`
 `
 
@@ -64,27 +91,4 @@ const LoginBtn = styled.button`
   outline: none;
   font-size: 15px;
   cursor: pointer;
-`
-const Navigation = ({}) => {
-    return (
-        <NavbarLayout>
-            <Navbar>
-                <NavbarLeft>
-                    <BrandLogo src={"https://s3.ap-northeast-2.amazonaws.com/marcus.gg/kaisa_logo_darknavy_text.svg"} alt={'logo'}/>
-                    <GameLogoBox>
-                        <GameLogo src={'https://s3.ap-northeast-2.amazonaws.com/marcus.gg/leagueOfLegendIcon.png'} alt={'logo'} />
-                        <GameTitle>리그 오브 레전드</GameTitle>
-                    </GameLogoBox>
-                </NavbarLeft>
-                {/*<NavbarRight>
-                    <LoginBtn>
-                        로그인
-                    </LoginBtn>
-                    <img src={'s3://marcus.gg/icon-language@2x.png'} alt={""} />
-                </NavbarRight>*/}
-            </Navbar>
-        </NavbarLayout >
-    )
-}
-
-export default Navigation
+`;

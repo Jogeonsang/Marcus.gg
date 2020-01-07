@@ -35,7 +35,8 @@ module.exports.LeagueOfLegendChampion = async event => {
 
 // api
 module.exports.SummonerInfo = async event => {
-    const summonerName = event.pathParameters.summonerName;
+    let { summonerName }= event.pathParameters;
+    summonerName = encodeURI(summonerName)
     return axios
         .get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${api_key}`)
         .then(response => {
