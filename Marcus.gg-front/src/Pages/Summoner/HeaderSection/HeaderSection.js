@@ -30,7 +30,7 @@ const SummonerHeader = ({summonerInfo}) => {
 export default SummonerHeader;
 
 const SummonerHeaderWrapper = styled.div`
-  padding: 30px 0;
+  padding: 50px 0;
 `;
 
 const SummonerInfo = styled.div`

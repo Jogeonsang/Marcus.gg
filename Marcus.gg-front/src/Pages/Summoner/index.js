@@ -33,5 +33,5 @@ const Summoner = ({location}) => {
 export default Summoner
 
 const SummonerContainer = styled.div`
-  padding: 0 10%;
+  padding: 0 20%;
 `;
