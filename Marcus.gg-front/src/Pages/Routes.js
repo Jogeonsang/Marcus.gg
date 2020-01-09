@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
 import Navigation from "../Components/Navigation";
-import Summoner from './Summoner';
+import Summoner from './SummonerSearch';
 
 const onEnterDefault = () => {
 

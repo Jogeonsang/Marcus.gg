@@ -72,6 +72,7 @@ module.exports.SummonerGameList = async event => {
     return axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}`)
         .then(response => {
+            console.log('gameList:',response.data)
             return {
                 statusCode: 200,
                 body: JSON.stringify(
