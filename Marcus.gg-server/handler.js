@@ -52,9 +52,9 @@ module.exports.SummonerInfo = async event => {
 };
 
 module.exports.SummonerLeagueInfo = async event => {
-    const summonerId = event.pathParameters.summonerId;
+    const encryptedSummonerId = event.pathParameters.encryptedSummonerId;
     return axios
-        .get(`https://kr.api.riotgames.com/lol/league/v4/positions/by-summoner/${summonerId}?api_key=${api_key}`)
+        .get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${encryptedSummonerId}?api_key=${api_key}`)
         .then(response => {
             return {
                 statusCode: 200,
@@ -72,7 +72,6 @@ module.exports.SummonerGameList = async event => {
     return axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}`)
         .then(response => {
-            console.log('gameList:',response.data)
             return {
                 statusCode: 200,
                 body: JSON.stringify(

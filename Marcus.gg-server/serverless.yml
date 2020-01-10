@@ -29,10 +29,10 @@ functions:
           method: get
           cors: true
   summonerLeagueInfo:
-    handler: handler.SummnerLeagueInfo
+    handler: handler.SummonerLeagueInfo
     events:
       - http:
-          path: marcus-gg/summoner/leagueInfo/by-summoner/{summonerId}
+          path: marcus-gg/summoner/leagueInfo/by-summoner/{encryptedSummonerId}
           method: get
           cors: true
   summonerGameList:
