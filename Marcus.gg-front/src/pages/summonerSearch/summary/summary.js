@@ -5,11 +5,11 @@ import "moment/locale/ko";
 
 moment.locale("ko");
 
-const SummonerHeader = ({summonerInfo}) => {
+const SummonerSummary = ({summonerInfo}) => {
   let {profileIconId, name, revisionDate, summonerLevel} = summonerInfo;
   revisionDate = moment(revisionDate).fromNow();
   return (
-    <SummonerHeaderWrapper>
+    <SummonerSummaryWrapper>
       <SummonerInfo>
         <ProfileImg>
           <img src={`https://ddragon.leagueoflegends.com/cdn/9.24.1/img/profileicon/${profileIconId}.png`}
@@ -23,29 +23,29 @@ const SummonerHeader = ({summonerInfo}) => {
           <SummonerRevisionDate>{`최근업데이트:${revisionDate}`}</SummonerRevisionDate>
         </SummonerNameBox>
       </SummonerInfo>
-    </SummonerHeaderWrapper>
+    </SummonerSummaryWrapper>
   )
 };
 
-export default SummonerHeader;
+export default SummonerSummary;
 
-const SummonerHeaderWrapper = styled.div`
-  padding: 50px 0;
+const SummonerSummaryWrapper = styled.div`
 `;
 
 const SummonerInfo = styled.div`
   display: flex;
+  height: 56px;
 `;
 
 const ProfileImg = styled.div`
-  width: 74px;
-  height: 74px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 2px solid rgb(52, 63, 87);
   
   img {
-    width: 70px;
-    height: 70px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     border: 2px solid rgb(32, 43, 67);
   }
@@ -58,10 +58,10 @@ const LevelBox = styled.div`
   position: relative;
   font-size: 14px;
   color: #FFFFFF;
-  left: 45px;
-  bottom: 27px;
-  width: 35px;
-  height: 35px;
+  left: 30px;
+  bottom: 22px;
+  width: 25px;
+  height: 25px;
   background-color: #343a40;
   border-radius: 50%;
 `;
@@ -73,19 +73,19 @@ const SummonerNameBox = styled.div`
   padding-left: 20px;
 `;
 const SummonerName = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
   font-style: normal;
   color: #FFFFFF;
   letter-spacing: 0.25px;
   margin: 0px;
-  padding-bottom: 12px;
+  padding-bottom: 7px;
 `;
 
 const SummonerRevisionDate = styled.div`
   box-sizing: border-box;
   padding-top: 2px;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
   margin: 0px;

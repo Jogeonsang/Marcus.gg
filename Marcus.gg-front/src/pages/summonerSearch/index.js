@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import queryString from "query-string";
 import styled from 'styled-components';
-import {getSummonerGameList, getSummonerInfo} from '../../lib/api'
-import SummonerHeader from "./HeaderSection/HeaderSection";
+import {getSummonerGameList, getSummonerInfo, getSummonerLeagueInfo} from '../../api/api'
+import SummonerSummary from "./summary/summary";
+import CardView from "../../commons/CardView/CardView";
 
 const SummonerSearch = ({location}) => {
 
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [gameList, setGameList] = useState([]);
+  const [leagueInfo, setLeagueInfo] = useState([]);
   useEffect(() => {
     const summonerName = queryString.parse(location.search).summonerName;
     getSummonerInfo(summonerName).then(res => {
       if (res.data) {
-        const { accountId } = res.data.data;
-        getSummonerGameList(accountId).then(res => {
-          console.log('res:',res)
+        const { accountId, id: encryptedSummonerId } = res.data.data;
+        Promise.all([
+          getSummonerGameList(accountId),
+          getSummonerLeagueInfo(encryptedSummonerId),
+        ]).then(([fetchGameList, fetchLeagueInfo]) => {
+          setGameList(fetchGameList.data.data);
+          setLeagueInfo(fetchLeagueInfo.data.data);
         });
         return setSummonerInfo(res.data);
       }
     });
   }, []);
 
+  console.log('gameList:',gameList);
+  console.log('leagueInfo:', leagueInfo)
   if (!summonerInfo) {
     return (
       <div>
@@ -30,8 +38,12 @@ const SummonerSearch = ({location}) => {
   }
   return (
     <SummonerContainer>
-      <SummonerWrapper/>
-      <SummonerHeader summonerInfo={summonerInfo.data}/>
+      <>
+        <CardView flexGrow={1}>
+          <SummonerSummary summonerInfo={summonerInfo.data}/>
+        </CardView>
+      </>
+      <CardView flexGrow={2}>GAMELIST</CardView>
     </SummonerContainer>
   )
 };
@@ -39,8 +51,8 @@ const SummonerSearch = ({location}) => {
 export default SummonerSearch
 
 const SummonerContainer = styled.div`
-  padding: 0 20%;
-  min-height: 700px;
+  display: flex;
+  padding: 50px 20%;
 `;
 
 const SummonerWrapper = styled.div`

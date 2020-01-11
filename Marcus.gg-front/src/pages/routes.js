@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './Home';
-import Navigation from "../Components/Navigation";
-import Summoner from './SummonerSearch';
+import Home from './home';
+import Navigation from "../components/navigation";
+import Summoner from './summonerSearch';
 
 const onEnterDefault = () => {
 
@@ -21,7 +21,6 @@ const PrviateRoutes = () => (
         <Route exact path="/" component={Home} />
         <Route path="/summoner" component={Summoner}/>
 
-        <Route path="*" onEnter={onEnterDefault} />
     </Switch>
 );
 

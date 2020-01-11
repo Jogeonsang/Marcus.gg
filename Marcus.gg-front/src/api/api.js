@@ -1,4 +1,4 @@
-import api from '../Commons/ApiUtil';
+import api from '../commons/apiUtil';
 
 export const getSummonerInfo = (summonerName) => {
    return api.get(`/marcus-gg/summoner/summonerInfo/by-name/summonerName=${summonerName}`);
