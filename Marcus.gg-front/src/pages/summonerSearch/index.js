@@ -4,13 +4,16 @@ import styled from 'styled-components';
 import {getSummonerGameList, getSummonerInfo, getSummonerLeagueInfo} from '../../api/api'
 import SummonerSummary from "./summary/summary";
 import CardView from "../../commons/CardView/CardView";
+import LeagueInfo from "./leagueInfo/leagueInfo";
 
 const SummonerSearch = ({location}) => {
 
+  const [isLoading, setIsLoading] = useState(true);
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [gameList, setGameList] = useState([]);
   const [leagueInfo, setLeagueInfo] = useState([]);
   useEffect(() => {
+    setIsLoading(true);
     const summonerName = queryString.parse(location.search).summonerName;
     getSummonerInfo(summonerName).then(res => {
       if (res.data) {
@@ -21,15 +24,16 @@ const SummonerSearch = ({location}) => {
         ]).then(([fetchGameList, fetchLeagueInfo]) => {
           setGameList(fetchGameList.data.data);
           setLeagueInfo(fetchLeagueInfo.data.data);
+          setSummonerInfo(res.data);
+          setIsLoading(false);
         });
-        return setSummonerInfo(res.data);
       }
     });
   }, []);
 
-  console.log('gameList:',gameList);
-  console.log('leagueInfo:', leagueInfo)
-  if (!summonerInfo) {
+  console.log('loading:', isLoading);
+  console.log(summonerInfo)
+  if (isLoading) {
     return (
       <div>
         Is Loading
@@ -38,12 +42,15 @@ const SummonerSearch = ({location}) => {
   }
   return (
     <SummonerContainer>
-      <>
+      <SummonerProfileColumn>
         <CardView flexGrow={1}>
           <SummonerSummary summonerInfo={summonerInfo.data}/>
         </CardView>
-      </>
-      <CardView flexGrow={2}>GAMELIST</CardView>
+        <CardView flexGrow={1}>
+          <LeagueInfo leagueInfo={leagueInfo}/>
+        </CardView>
+      </SummonerProfileColumn>
+      {/*<CardView flexGrow={2}>GAMELIST</CardView>*/}
     </SummonerContainer>
   )
 };
@@ -53,6 +60,12 @@ export default SummonerSearch
 const SummonerContainer = styled.div`
   display: flex;
   padding: 50px 20%;
+`;
+
+const SummonerProfileColumn = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SummonerWrapper = styled.div`
