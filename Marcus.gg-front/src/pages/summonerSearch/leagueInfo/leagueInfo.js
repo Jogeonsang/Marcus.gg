@@ -31,6 +31,9 @@ const LeagueInfo = ({leagueInfo}) => {
             <TierName style={{color: getTierColor(soloRank.tier)}}>
               {getTierName(soloRank.tier)}
             </TierName>
+            <TierPoint>
+              {`${soloRank.leaguePoints} LP`}
+            </TierPoint>
           </SoloRankTierInfo>
         </SoloRankInfo>
       </SoloRankWrapper>
@@ -78,6 +81,11 @@ const TierName = styled.div`
   font-weight: 700;
 `;
 
+const TierPoint = styled.div`
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #88A0B5;
+`;
 const TeamRankTitle = styled.div`
   color: ${props => props.color ? props.theme.TierColor[props.color] : '#FFFFFF'};
 `;
