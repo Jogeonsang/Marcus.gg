@@ -5,10 +5,6 @@ import Home from './home';
 import Navigation from "../components/navigation";
 import Summoner from './summonerSearch';
 
-const onEnterDefault = () => {
-
-}
-
 const Routes = () => [
     <>
         <Navigation key={1}/>

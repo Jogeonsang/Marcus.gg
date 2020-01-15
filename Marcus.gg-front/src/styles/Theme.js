@@ -1,6 +1,6 @@
 const BORDER_RADIUS = '5px';
 const BOX_BG_COLOR = 'rgb(32, 43, 67)';
-const TierColor =  {
+const TIER_COLOR =  {
     IRON: '#94868B',
     BRONZE: '#B97451',
     SILVER: '#A2C0C7',
@@ -8,9 +8,9 @@ const TierColor =  {
     PLATINUM: '#63B7B3',
     DIAMOND: '#738DF9',
     MASTER: '#9D5DDD',
-    GRANDMATSER: '#EF4F4F',
+    GRANDMASTER: '#EF4F4F',
     CHALLENGER: '#F4C873',
-}
+};
 export default {
     bgColor: '#151E33',
     whiteColor: '#FFFFFF',
@@ -27,5 +27,6 @@ export default {
     borderRadius: '5px;',
     darkNavyBox: `${BORDER_RADIUS};
                   ${BOX_BG_COLOR};
-    `
+    `,
+    tierColor: TIER_COLOR
 }

@@ -17,7 +17,7 @@ export const getTierName = (tier) => {
     case 'CHALLENGER':
       return '챌린저';
     default:
-      return 'UNRANKED'
+      return 'UN RANKED'
   }
 };
 

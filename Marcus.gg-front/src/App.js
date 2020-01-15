@@ -6,7 +6,6 @@ import GlobalStyles from "./styles/GlobalStyles";
 import Theme from './styles/Theme';
 import Routes from "./pages/routes";
 const App = () => {
-  console.log(process.env)
   return (
       <ThemeProvider theme={Theme}>
         <GlobalStyles/>
