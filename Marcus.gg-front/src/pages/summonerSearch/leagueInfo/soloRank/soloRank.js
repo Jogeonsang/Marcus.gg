@@ -49,12 +49,11 @@ const SoloRankTierInfo = styled.div`
 `;
 const SoloRankTierIcon = styled.div`
   img {
-    position: absolute;
+    position: relative;
     width: 72px;
     height: 72px;
-    top: 274px;
-    left: 261px;
-
+    bottom: 88px;
+    left: 18px;
   }
 `;
 
