@@ -35,6 +35,13 @@ functions:
           path: marcus-gg/summoner/leagueInfo/by-summoner/{encryptedSummonerId}
           method: get
           cors: true
+  summonerRecentChampion:
+    handler: handler.SummonerRecentChampion
+    events:
+      - http:
+          path: marcus-gg/summoner/championInfo/by-account/{accountId}
+          method: get
+          cors: true
   summonerGameList:
     handler: handler.SummonerGameList
     events:

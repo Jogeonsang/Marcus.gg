@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import queryString from "query-string";
 import styled from 'styled-components';
-import {getSummonerGameList, getSummonerInfo, getSummonerLeagueInfo} from '../../api/api'
+import {getRecentChampion, getSummonerGameList, getSummonerInfo, getSummonerLeagueInfo} from '../../api/api'
 import SummonerSummary from "./summary/summary";
 import CardView from "../../commons/CardView/CardView";
 import LeagueInfo from "./leagueInfo/leagueInfo";
@@ -12,6 +12,7 @@ const SummonerSearch = ({location}) => {
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [gameList, setGameList] = useState([]);
   const [leagueInfo, setLeagueInfo] = useState([]);
+  const [recentChampion, setRecentChampion] = useState({});
   useEffect(() => {
     setIsLoading(true);
     const summonerName = queryString.parse(location.search).summonerName;
@@ -21,9 +22,11 @@ const SummonerSearch = ({location}) => {
         Promise.all([
           getSummonerGameList(accountId),
           getSummonerLeagueInfo(encryptedSummonerId),
-        ]).then(([fetchGameList, fetchLeagueInfo]) => {
+          getRecentChampion(accountId),
+        ]).then(([fetchGameList, fetchLeagueInfo, fetchRecentChampion]) => {
           setGameList(fetchGameList.data.data);
           setLeagueInfo(fetchLeagueInfo.data.data);
+          setRecentChampion(fetchRecentChampion.data);
           setSummonerInfo(res.data);
           setIsLoading(false);
         });

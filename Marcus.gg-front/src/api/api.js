@@ -5,9 +5,13 @@ export const getSummonerInfo = (summonerName) => {
 };
 
 export const getSummonerGameList = (accountId) => {
-   return api.get(`marcus-gg/summoner/gameList/by-account/${accountId}`);
+   return api.get(`/marcus-gg/summoner/gameList/by-account/${accountId}`);
 };
 
 export const getSummonerLeagueInfo = (encryptedSummonerId) => {
-   return api.get(`marcus-gg/summoner/leagueInfo/by-summoner/${encryptedSummonerId}`);
+   return api.get(`/marcus-gg/summoner/leagueInfo/by-summoner/${encryptedSummonerId}`);
+}
+
+export const getRecentChampion = (accountId) => {
+   return api.get(`/marcus-gg/summoner/championInfo/by-account/${accountId}`);
 }
