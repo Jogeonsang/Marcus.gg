@@ -6,7 +6,37 @@ import styled from "styled-components";
 
 const SoloRank = ({data}) => {
 
-  const { leaguePoints, tier, wins, losses } = data;
+  const {leaguePoints, tier, wins, losses, miniSeries = {}} = data;
+
+  const renderRankPromo = () => {
+    const {progress = ''} = miniSeries;
+    let gameProgress = [];
+    for (let i = 0; i < progress.length; i++) {
+      gameProgress.push(progress.substr(i, 1));
+    }
+    if (miniSeries) {
+      return (
+        <>
+          <RankPromoTitle>
+            승급/승격전 진행 중
+          </RankPromoTitle>
+          <RankPromo>
+            {
+              gameProgress.map(x => (
+                <MiniSeries promoState={x}/>
+              ))
+            }
+          </RankPromo>
+        </>
+      )
+    }
+    return (
+      <TierPoint>
+        {`${leaguePoints} LP`}
+      </TierPoint>
+    )
+  }
+
   return (
     <SoloRankInfo>
       <SoloRankTierIcon>
@@ -26,6 +56,7 @@ const SoloRank = ({data}) => {
         <TierPoint>
           {`${wins}승 ${losses}패 (${getVictoryRate(wins, losses)}%)`}
         </TierPoint>
+        {renderRankPromo()}
       </SoloRankTierInfo>
     </SoloRankInfo>
   )
@@ -34,7 +65,7 @@ const SoloRank = ({data}) => {
 export default SoloRank;
 
 const SoloRankInfo = styled.div`
-  display: flex;
+  display: flex;  
 `;
 
 const SoloRankTierCircle = styled.div`
@@ -48,12 +79,13 @@ const SoloRankTierInfo = styled.div`
   margin-left: 20px;
 `;
 const SoloRankTierIcon = styled.div`
+  height: 108px;
   img {
     position: relative;
-    width: 72px;
-    height: 72px;
-    bottom: 88px;
-    left: 18px;
+    width: 62px;
+    height: 62px;
+    bottom: 84px;
+    left: 22px;
   }
 `;
 
@@ -67,4 +99,34 @@ const TierPoint = styled.div`
   margin-top: 10px;
   font-weight: 700;
   color: #88A0B5;
+`;
+
+const RankPromoTitle = styled.div`
+   padding: 10px 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #88A0B5;
+`;
+
+const RankPromo = styled.div`
+  display: flex;
+`;
+const MiniSeries = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: ${props => {
+  if (props.promoState === 'W') {
+    return '#77bcf3'
+  } else if (props.promoState === 'L') {
+    return '#FF5859'
+  } else {
+    return '#141D33'
+  }
+}};
+  border: 1px solid rgb(52,63,87);
+  &:nth-last-child(1) {
+    margin: 0;
+  }
 `;
