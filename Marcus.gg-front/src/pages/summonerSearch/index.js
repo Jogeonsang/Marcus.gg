@@ -5,6 +5,7 @@ import {getRecentChampion, getSummonerGameList, getSummonerInfo, getSummonerLeag
 import SummonerSummary from "./summary/summary";
 import CardView from "../../commons/CardView/CardView";
 import LeagueInfo from "./leagueInfo/leagueInfo";
+import RecentChampionList from "./recentChampionList/recentChampionList";
 
 const SummonerSearch = ({location}) => {
 
@@ -51,6 +52,9 @@ const SummonerSearch = ({location}) => {
         </CardView>
         <CardView flexGrow={1}>
           <LeagueInfo leagueInfo={leagueInfo}/>
+        </CardView>
+        <CardView>
+          <RecentChampionList recentChampion={recentChampion}/>
         </CardView>
       </SummonerProfileColumn>
       {/*<CardView flexGrow={2}>GAMELIST</CardView>*/}
