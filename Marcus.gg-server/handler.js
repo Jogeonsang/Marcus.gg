@@ -72,6 +72,7 @@ module.exports.SummonerRecentChampion = async event => {
   return axios
     .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}`)
     .then(response => {
+      console.log(response.data.matches);
       const result = response.data.matches.reduce((b, c) => ((b[b.findIndex(d => d.champion.champion === c.champion)] || b[b.push({
         champion: c,
         count: 0

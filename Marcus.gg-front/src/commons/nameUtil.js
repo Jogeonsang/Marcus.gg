@@ -10,6 +10,8 @@ export const getTierName = (tier) => {
       return '골드';
     case 'PLATINUM':
       return '플레티넘'
+    case 'DIAMOND':
+      return '다이아몬드'
     case 'MASTER':
       return '마스터';
     case 'GRANDMASTER':

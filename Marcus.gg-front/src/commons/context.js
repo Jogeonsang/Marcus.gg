@@ -19,19 +19,11 @@ const ChampionContextProvider = ({children}) => {
 
 export const useChampion = (championId) => {
   const { champions } = useContext(ChampionContext);
-  console.log(championId);
   return Object.values(champions).filter(champion => {
     if(Number(champion.key)=== championId) {
       return champion
     }
   });
-};
-
-export const useChampionId = () => {
-  const { champion } = useContext(ChampionContext);
-  for(let i  in champion) {
-    console.log(champion);
-  }
 };
 
 export default ChampionContextProvider;
