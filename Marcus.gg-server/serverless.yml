@@ -39,7 +39,7 @@ functions:
     handler: handler.SummonerRecentChampion
     events:
       - http:
-          path: marcus-gg/summoner/championInfo/by-account/{accountId}
+          path: marcus-gg/summoner/championInfo/by-account/{accountId}/{summonerName}
           method: get
           cors: true
   summonerGameList:

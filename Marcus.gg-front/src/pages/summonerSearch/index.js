@@ -23,7 +23,7 @@ const SummonerSearch = ({location}) => {
         Promise.all([
           getSummonerGameList(accountId),
           getSummonerLeagueInfo(encryptedSummonerId),
-          getRecentChampion(accountId),
+          getRecentChampion(accountId, summonerName),
         ]).then(([fetchGameList, fetchLeagueInfo, fetchRecentChampion]) => {
           setGameList(fetchGameList.data.data);
           setLeagueInfo(fetchLeagueInfo.data.data);
