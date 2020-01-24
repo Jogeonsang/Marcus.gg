@@ -68,30 +68,26 @@ module.exports.SummonerLeagueInfo = async event => {
 };
 
 module.exports.SummonerRecentChampion = async event => {
-  let { accountId, summonerName } = event.pathParameters;
-  summonerName = encodeURI(summonerName);
-  const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}&summonerName=${summonerName}`);
-  return Promise.all([getMatches]).then(([fetchMatch]) => {
-    const matchResult = fetchMatch.data.matches.reduce((b, c) => ((b[b.findIndex(d => d.champion.champion === c.champion)] || b[b.push({
-      champion: c,
-      count: 0
-    }) - 1]).count++, b), []);
-    // return axios.get(`https://kr.api.riotgames.com/lol/match/v4/matches/${4092065836}?api_key=${api_key}`);
-    fetchMatch.data.matches.map(match => [
-      axios.get(`https://kr.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${api_key}`).then(res => {
-        console.log('res:',res)
-      })
-    ]);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          data: matchResult,
-        },
-      )
-    }
-  });
-}
+  const accountId = event.pathParameters.accountId;
+  return axios
+    .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}`)
+    .then(response => {
+      const result = response.data.matches.reduce((b, c) => ((b[b.findIndex(d => d.champion.champion === c.champion)] || b[b.push({
+        champion: c,
+        count: 0
+      }) - 1]).count++, b), []);
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          {
+            data: result
+          },
+        )
+      }
+    })
+};
+
+
 module.exports.SummonerGameList = async event => {
   const accountId = event.pathParameters.accountId;
   return axios

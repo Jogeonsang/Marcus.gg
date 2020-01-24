@@ -12,8 +12,8 @@ export const getSummonerLeagueInfo = (encryptedSummonerId) => {
    return api.get(`/marcus-gg/summoner/leagueInfo/by-summoner/${encryptedSummonerId}`);
 };
 
-export const getRecentChampion = (accountId, summonerName) => {
-   return api.get(`/marcus-gg/summoner/championInfo/by-account/${accountId}/${summonerName}`);
+export const getRecentChampion = (accountId) => {
+   return api.get(`/marcus-gg/summoner/championInfo/by-account/${accountId}`);
 };
 
 

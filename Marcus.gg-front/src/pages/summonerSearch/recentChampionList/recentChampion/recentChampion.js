@@ -4,6 +4,9 @@ import {useChampion} from "../../../../commons/context";
 
 const RecentChampion = ({data}) => {
   const [champion]= useChampion(data.champion.champion);
+  // const {participants, participantIdentities} = each.data;
+  // const participantId = participantIdentities.find(participant => participant.player.summonerName === summonerName).participantId;
+  // setParticipant.push(participants.find(participant => participant.participantId === participantId));
   return (
     <RecentChampionWrapper>
       <LeftBox>

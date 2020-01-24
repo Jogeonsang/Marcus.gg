@@ -14,7 +14,7 @@ const SoloRank = ({data}) => {
     for (let i = 0; i < progress.length; i++) {
       gameProgress.push(progress.substr(i, 1));
     }
-    if (miniSeries) {
+    if (miniSeries.length > 0) {
       return (
         <>
           <RankPromoTitle>
