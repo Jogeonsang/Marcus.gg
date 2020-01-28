@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import {useChampion} from "../../../../commons/context";
 
 const RecentChampion = ({data}) => {
-  const [champion]= useChampion(data.champion.champion);
-  // const {participants, participantIdentities} = each.data;
-  // const participantId = participantIdentities.find(participant => participant.player.summonerName === summonerName).participantId;
-  // setParticipant.push(participants.find(participant => participant.participantId === participantId));
+  const [champion]= useChampion(data.champion.championId);
   return (
     <RecentChampionWrapper>
       <LeftBox>
@@ -16,7 +13,7 @@ const RecentChampion = ({data}) => {
             {champion.name}
           </ChampionName>
           <ChampionPlayCount>
-            {data.count}
+            {`${data.count} 게임`}
           </ChampionPlayCount>
         </ChampionInfo>
       </LeftBox>

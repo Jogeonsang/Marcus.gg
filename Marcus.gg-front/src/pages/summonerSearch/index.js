@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import queryString from "query-string";
 import styled from 'styled-components';
-import {getRecentChampion, getSummonerGameList, getSummonerInfo, getSummonerLeagueInfo} from '../../api/api'
+import {
+  getDetailGameList,
+  getRecentChampion,
+  getSummonerGameList,
+  getSummonerInfo,
+  getSummonerLeagueInfo
+} from '../../api/api'
 import SummonerSummary from "./summary/summary";
 import CardView from "../../commons/CardView/CardView";
 import LeagueInfo from "./leagueInfo/leagueInfo";
@@ -14,23 +20,34 @@ const SummonerSearch = ({location}) => {
   const [gameList, setGameList] = useState([]);
   const [leagueInfo, setLeagueInfo] = useState([]);
   const [recentChampion, setRecentChampion] = useState({});
+  const [detailGameList, setDetailGameList] = useState([]);
   useEffect(() => {
     setIsLoading(true);
     const summonerName = queryString.parse(location.search).summonerName;
     getSummonerInfo(summonerName).then(res => {
       if (res.data) {
-        const { accountId, id: encryptedSummonerId } = res.data.data;
+        const {accountId, id: encryptedSummonerId} = res.data.data;
         Promise.all([
           getSummonerGameList(accountId),
           getSummonerLeagueInfo(encryptedSummonerId),
-          getRecentChampion(accountId),
+          getRecentChampion(accountId, summonerName),
         ]).then(([fetchGameList, fetchLeagueInfo, fetchRecentChampion]) => {
           setGameList(fetchGameList.data.data);
           setLeagueInfo(fetchLeagueInfo.data.data);
           setRecentChampion(fetchRecentChampion.data);
           setSummonerInfo(res.data);
           setIsLoading(false);
-        });
+        })
+          // .then(xxx => {
+          //   console.log('xxxGameList:',gameList)
+          //   return gameList.map(each => {
+          //     console.log('each:', each)
+          //     // getDetailGameList(each.gameId)
+          //     // const {participants, participantIdentities} = each.data;
+          //     // const participantId = participantIdentities.find(participant => participant.player.summonerName === summonerName).participantId;
+          //     // setParticipant.push(participants.find(participant => participant.participantId === participantId));
+          //   })
+          // })
       }
     });
   }, []);
@@ -42,7 +59,7 @@ const SummonerSearch = ({location}) => {
       <div>
         Is Loading
       </div>
-      )
+    )
   }
   return (
     <SummonerContainer>
