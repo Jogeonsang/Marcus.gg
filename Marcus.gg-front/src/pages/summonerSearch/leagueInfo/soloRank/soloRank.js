@@ -30,11 +30,6 @@ const SoloRank = ({data}) => {
         </>
       )
     }
-    return (
-      <TierPoint>
-        {`${leaguePoints} LP`}
-      </TierPoint>
-    )
   }
 
   return (

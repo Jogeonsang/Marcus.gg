@@ -38,22 +38,10 @@ const SummonerSearch = ({location}) => {
           setSummonerInfo(res.data);
           setIsLoading(false);
         })
-          // .then(xxx => {
-          //   console.log('xxxGameList:',gameList)
-          //   return gameList.map(each => {
-          //     console.log('each:', each)
-          //     // getDetailGameList(each.gameId)
-          //     // const {participants, participantIdentities} = each.data;
-          //     // const participantId = participantIdentities.find(participant => participant.player.summonerName === summonerName).participantId;
-          //     // setParticipant.push(participants.find(participant => participant.participantId === participantId));
-          //   })
-          // })
       }
     });
   }, []);
 
-  console.log('loading:', isLoading);
-  console.log(summonerInfo)
   if (isLoading) {
     return (
       <div>

@@ -67,64 +67,45 @@ module.exports.SummonerLeagueInfo = async event => {
     })
 };
 
-/*module.exports.SummonerRecentChampion = async event => {
-  let { accountId, summonerName } = event.pathParameters;
-
-  const recentParticipant = [];
-
-  return axios
-    .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}`)
-    .then(response => {
-      const result = response.data.matches.reduce((b, c) => ((b[b.findIndex(d => d.champion.champion === c.champion)] || b[b.push({
-        champion: c,
-        count: 0
-      }) - 1]).count++, b), []);
-      for(let i in response.data.matches) {
-        const { gameId } = response.data.matches[i];
-        return axios
-          .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${response.data.matches[i].gameId}?api_key=${api_key}`)
-          .then(each => {
-            const {participants, participantIdentities} = each.data;
-            const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId
-            return recentParticipant.push(participants.find(participant => participant.participantId === participantId));
-            // participants.find(participant => participant.participantId === participantId)
-          })
-      }
-
-      console.log('recentParticipant:',recentParticipant)
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          {
-            data: result
-          },
-        )
-      }
-    })
-};*/
-
 module.exports.SummonerRecentChampion = async event => {
   let {accountId, summonerName} = event.pathParameters;
   const enCodeSummonerName = encodeURI(summonerName);
+  // const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=100&api_key=${api_key}&summonerName=${enCodeSummonerName}`);
   const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=10&api_key=${api_key}&summonerName=${enCodeSummonerName}`);
-
+  // const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/TXnxF-rFULUvC078YLN2gnRwz4oJQ64fiF7iswnqH4H8?endIndex=100&api_key=RGAPI-8d1ff971-dc17-4716-b6b7-62b04b8311c2&summonerName=상이는공주`);
   const championStats = async (matches) => {
+      console.log('asd:',matches)
     const recentParticipant = [];
-    for (let i in matches) {
-      const {gameId} = matches[i];
+    await Promise.all(matches.map(async (matche) => {
+      const {gameId} = matche
       await axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
         .then(each => {
           const {participants, participantIdentities} = each.data;
-          const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId
+          const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId;
+
           recentParticipant.push(participants.find(participant => participant.participantId === participantId));
         })
-    }
-    const result = recentParticipant.reduce((b,c) => ((b[b.findIndex(d => d.champion.championId === c.championId)] || b[b.push({
-      champion: c,
-      count: 0,
-    }) - 1]).count++, b), []);
-    return result;
+    }));
+
+    const resultObj = recentParticipant.reduce((obj, val) => {
+      if (obj[val.championId]) {
+        obj[val.championId].stats.kills = obj[val.championId].stats.kills + val.stats.kills;
+        obj[val.championId].stats.deaths = obj[val.championId].stats.deaths + val.stats.deaths;
+        obj[val.championId].stats.assists = obj[val.championId].stats.assists + val.stats.assists;
+        obj[val.championId].stats.win = obj[val.championId].stats.win + val.stats.win;
+        obj[val.championId].count = obj[val.championId].count + 1;
+        obj[val.championId].victoryRate = Math.round(obj[val.championId].stats.win / obj[val.championId].count * 100)
+      } else {
+        obj[val.championId] = val;
+        obj[val.championId].count = 1;
+        obj[val.championId].stats.win = obj[val.championId].stats.win ? 1 : 0;
+        obj[val.championId].victoryRate = Math.round(obj[val.championId].stats.win / obj[val.championId].count * 100)
+      }
+      return obj;
+
+    }, []);
+    return resultObj.filter(x => x).sort((a,b) => b.count -a.count);
   };
 
   return getMatches.then(async fetchMatch => {
@@ -132,6 +113,7 @@ module.exports.SummonerRecentChampion = async event => {
     return Promise.all(
       [championStats(matches)])
       .then(([championStats]) => {
+        console.log(championStats)
         return {
           statusCode: 200,
           body: JSON.stringify(

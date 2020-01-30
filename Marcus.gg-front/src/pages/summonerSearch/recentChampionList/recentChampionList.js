@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import RecentChampion from "./recentChampion/recentChampion";
 
 const RecentChampionList = ({recentChampion}) => {
-
   return (
     <RecentChampionListWrapper>
       <Title>
