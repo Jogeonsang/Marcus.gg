@@ -57,7 +57,7 @@ const LevelBox = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  font-size: 14px;
+  font-size: 11px;
   color: #FFFFFF;
   left: 30px;
   bottom: 22px;

@@ -53,7 +53,7 @@ functions:
     handler: handler.SummonerDetailGameInfo
     events:
       - http:
-          path: marcus-gg/summoner/detailGameInfo/matches/{gameId}
+          path: marcus-gg/summoner/detailGameInfo/by-account/{accountId}/{summonerName}/{endIndex}
           method: get
           cors: true
 

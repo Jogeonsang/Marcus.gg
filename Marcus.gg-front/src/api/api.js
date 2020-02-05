@@ -16,8 +16,8 @@ export const getRecentChampion = (accountId,summonerName) => {
    return api.get(`/marcus-gg/summoner/championInfo/by-account/${accountId}/${summonerName}`);
 };
 
-export const getDetailGameList = (gameId) => {
-   return api.get(`/marcus-gg/summoner/detailGameInfo/matches/${gameId}`)
+export const getDetailGameList = (accountId,summonerName,endIndex = 10) => {
+   return api.get(`/marcus-gg/summoner/detailGameInfo/by-account/${accountId}/${summonerName}/${endIndex}`)
 }
 
 export const getChampionInfo = () => {

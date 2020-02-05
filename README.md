@@ -13,3 +13,10 @@
 
 AWS Lambda + Serverless + Node.js
 
+### Front TODO
+- [X] Summoner Search
+- [X] Summoner LeagueInfo - SoloRank
+- [X] Summoner RecentChampion
+
+### Front Spec
+React + React Hooks    

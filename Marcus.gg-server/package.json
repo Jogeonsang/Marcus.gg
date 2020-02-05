@@ -1,0 +1,18 @@
+{
+  "name": "marcus.gg-server",
+  "version": "1.0.0",
+  "description": "- [X] Summoner Search API - [X] Summoner League Info API - [X] Summoner GameList API - [X] Summoner DetailGameList API - [X] LeagueOfLegend Items API - [X] LeagueOfLegend Champions API",
+  "main": "handler.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^5.12.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

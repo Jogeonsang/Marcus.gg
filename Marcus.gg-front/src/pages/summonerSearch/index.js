@@ -28,13 +28,13 @@ const SummonerSearch = ({location}) => {
       if (res.data) {
         const {accountId, id: encryptedSummonerId} = res.data.data;
         Promise.all([
-          getSummonerGameList(accountId),
           getSummonerLeagueInfo(encryptedSummonerId),
-          getRecentChampion(accountId, summonerName),
-        ]).then(([fetchGameList, fetchLeagueInfo, fetchRecentChampion]) => {
-          setGameList(fetchGameList.data.data);
+          getDetailGameList(accountId, summonerName),
+          // getRecentChampion(accountId, summonerName),
+        ]).then(([fetchLeagueInfo, fetchDetailGameList, fetchRecentChampion,]) => {
           setLeagueInfo(fetchLeagueInfo.data.data);
-          setRecentChampion(fetchRecentChampion.data);
+          setDetailGameList(fetchDetailGameList.data);
+          // setRecentChampion(fetchRecentChampion.data);
           setSummonerInfo(res.data);
           setIsLoading(false);
         })
@@ -49,6 +49,8 @@ const SummonerSearch = ({location}) => {
       </div>
     )
   }
+
+  console.log('detailGameList:',detailGameList)
   return (
     <SummonerContainer>
       <SummonerProfileColumn>
@@ -58,9 +60,9 @@ const SummonerSearch = ({location}) => {
         <CardView flexGrow={1}>
           <LeagueInfo leagueInfo={leagueInfo}/>
         </CardView>
-        <CardView>
+        {/*<CardView>
           <RecentChampionList recentChampion={recentChampion}/>
-        </CardView>
+        </CardView>*/}
       </SummonerProfileColumn>
       {/*<CardView flexGrow={2}>GAMELIST</CardView>*/}
     </SummonerContainer>
