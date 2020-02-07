@@ -21,5 +21,5 @@ const CardViewContainer = styled.div`
   -webkit-box-align: center;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  flex-grow: ${props => props.flexGrow ? props.flexGrow : '0'};
+  margin-left: ${props => props.flexGrow ? `${props.flexGrow}px` : '0'};
 `;

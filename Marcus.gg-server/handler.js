@@ -68,38 +68,6 @@ module.exports.SummonerLeagueInfo = async event => {
     })
 };
 
-module.exports.SummonerDetailGameInfo = async event => {
-  let {accountId, summonerName, endIndex} = event.pathParameters;
-  const gameId = event.pathParameters.gameId;
-  const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=${endIndex}&api_key=${api_key}&summonerName=${enCodeSummonerName}`);
-  return axios
-    .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=${endIndex}&api_key=${api_key}`)
-    .then(response => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          {
-            data: response.data
-          },
-        )
-      }
-    })
-  return getMatches.then(res => {
-
-  })
-  /*return axios
-    .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
-    .then(response => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          {
-            data: response.data,
-          },
-        )
-      }
-    })*/
-};
 
 module.exports.SummonerRecentChampion = async event => {
   let {accountId, summonerName} = event.pathParameters;
@@ -136,7 +104,7 @@ module.exports.SummonerRecentChampion = async event => {
       return obj;
 
     }, []);
-    return resultObj.filter(x => x).sort((a,b) => b.count -a.count);
+    return resultObj.filter(x => x).sort((a, b) => b.count - a.count);
   };
 
   return getMatches.then(async fetchMatch => {
@@ -163,20 +131,25 @@ module.exports.SummonerDetailGameInfo = async event => {
   const setMatchDetail = async (matches) => {
     const matchDetail = [];
     await Promise.all(matches.map(async (matche) => {
-      const {gameId} = matche;
+      const {gameId, queue, lane, timestamp} = matche;
       await axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
         .then(each => {
           const {participants, participantIdentities} = each.data;
           const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId;
 
-          // matchDetail.push(participants.find(participant => participant.participantId === participantId));
-          matchDetail.push({participants: participants, participantId: participantId});
+          matchDetail.push({
+            participant: participants.find(participant => participant.participantId === participantId),
+            participantId: participantId,
+            gameId: gameId,
+            timestamp: timestamp,
+            queue: queue,
+            lane: lane
+          });
         })
     }));
 
-    return matchDetail;
-    // return resultObj.filter(x => x).sort((a,b) => b.count -a.count);
+    return matchDetail.sort((a, b) => b.timestamp - a.timestamp);
   };
   return getMatches.then(async fetchMatch => {
     const {matches} = fetchMatch.data;
@@ -193,23 +166,11 @@ module.exports.SummonerDetailGameInfo = async event => {
         }
       })
   })
-  /*return axios
-    .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
-    .then(response => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          {
-            data: response.data,
-          },
-        )
-      }
-    })*/
 };
 
 
 module.exports.SummonerGameList = async event => {
-  const { accountId, endIndex} = event.pathParameters
+  const {accountId, endIndex} = event.pathParameters
   return axios
     .get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=${endIndex}&api_key=${api_key}`)
     .then(response => {
