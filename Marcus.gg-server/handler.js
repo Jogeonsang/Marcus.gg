@@ -137,14 +137,22 @@ module.exports.SummonerDetailGameInfo = async event => {
         .then(each => {
           const {participants, participantIdentities} = each.data;
           const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId;
-
+          const teamId = Object.values(participants).find(participant => participant.participantId === participantId).teamId;
+          const totalKills = participants.reduce((a,b) => {
+            if(teamId === b.teamId) {
+              a.totalKills = a.totalKills + b.stats.kills;
+            };
+            return a
+          }, {totalKills: 0});
           matchDetail.push({
             participant: participants.find(participant => participant.participantId === participantId),
             participantId: participantId,
             gameId: gameId,
             timestamp: timestamp,
             queue: queue,
-            lane: lane
+            lane: lane,
+            teamId: teamId,
+            totalKills: totalKills.totalKills
           });
         })
     }));
