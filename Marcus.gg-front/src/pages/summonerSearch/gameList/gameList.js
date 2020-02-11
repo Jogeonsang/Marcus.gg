@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes }from 'styled-components';
 import ChampionProfile from "./championProfile/championProfile";
 import GameRecord from "./gameRecord/gameRecord";
 
@@ -11,7 +11,7 @@ const GameList = ({detailGameList}) => {
         const { lane, participant, totalKills, gameDuration, queue } = list
         let {championId, stats} = participant;
         return (
-          <GameListBox>
+          <GameListBox victory={stats.win}>
             <VictoryBar victory={stats.win}/>
             <ChampionProfile championId={championId} lane={lane}/>
             <GameRecord participant={participant} totalKills={totalKills} gameDuration={gameDuration} queueId={queue}/>
@@ -24,18 +24,12 @@ const GameList = ({detailGameList}) => {
 
 export default GameList;
 
+const WrapperMoving = keyframes`
+  
+`;
 const GameListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const GameListBox = styled.div`
-  display: flex;
-  width: 660px;
-  height: 65px;
-  background-color: rgb(24, 35, 56);
-  margin: 7px 0;
-  border-radius: 5px;
 `;
 
 const VictoryBar = styled.div`
@@ -43,12 +37,37 @@ const VictoryBar = styled.div`
   margin-right: 0.25rem;
   border-radius: 5px 0px 0px 5px;
   transition: all 0.15s ease-in 0s;
+  opacity: 0.8;
   background-color: ${props => {
-    if(props.victory) {
-      return '#49B4FF';
-    } else {
-      return 'rgb(255, 88, 89)';
-    }
+  if(props.victory) {
+    return '#49B4FF';
+  } else {
+    return 'rgb(255, 88, 89)';
   }
-}
+}};
 `;
+
+const GameListBox = styled.div`
+  position: relative;
+  left: 0;
+  display: flex;
+  width: 660px;
+  height: 65px;
+  background-color: rgb(24, 35, 56);
+  margin: 7px 0;
+  border-radius: 5px;
+  &:hover {
+    transition: left ease 0.5s;
+    left: -6px;
+  };
+  &:hover ${VictoryBar} {
+    opacity: 1;
+    background-color: ${props => {
+  if(props.victory) {
+    return '#24E8CC'
+  } else {
+    return '#FF5859'
+    }}};
+  };
+`;
+

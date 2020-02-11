@@ -46,7 +46,7 @@ const GameRecord = ({participant, totalKills, gameDuration, queueId}) => {
       </TwoLineWrapper>
       <TwoLineWrapper>
         <DamagePerMinute>
-          {`분당 ${getDamagePerMinute(totalDamageDealtToChampions, gameDuration)} 피해량`}
+          {`분당 피해량 ${getDamagePerMinute(totalDamageDealtToChampions, gameDuration)}`}
         </DamagePerMinute>
         <TotalDamage>
           {`아군 피해량의 ${teamDamageRate(stats)}%`}

@@ -12,7 +12,7 @@ export const getKDA = (stats) => {
 
 export const KillInvolvementRate = (totalKills, stats) => {
   let {kills, assists} = stats;
-  return Math.ceil(((totalKills % (kills + assists)) * 10) + totalKills / (kills + assists))
+  return Math.round(100 / (totalKills / (kills + assists)))
 };
 
 export const teamDamageRate = (stats) => {
@@ -21,7 +21,7 @@ export const teamDamageRate = (stats) => {
 };
 
 export const getMiniosKillRate = (totalMinionsKilled ,time) => {
-  return Math.round(totalMinionsKilled / Math.round(time / 60)).toFixed(1)
+  return (totalMinionsKilled / Math.round(time / 60)).toFixed(1)
 };
 
 export const getDamagePerMinute = (totalDamage, time) => {
