@@ -4,7 +4,6 @@ import {useChampion} from "../../../../commons/context";
 
 const ChampionProfile = ({championId, lane}) => {
   const [champion] = useChampion(championId);
-  console.log('lane:', lane)
   return (
     <ChampionImg championImg={`http://ddragon.leagueoflegends.com/cdn/10.3.1/img/champion/${champion.id}.png`}>
       {/*<LaneWrapper>

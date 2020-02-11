@@ -135,7 +135,7 @@ module.exports.SummonerDetailGameInfo = async event => {
       await axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
         .then(each => {
-          const {participants, participantIdentities} = each.data;
+          const {participants, participantIdentities, gameDuration, queueId} = each.data;
           const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId;
           const teamId = Object.values(participants).find(participant => participant.participantId === participantId).teamId;
           const totalKills = participants.reduce((a,b) => {
@@ -148,9 +148,10 @@ module.exports.SummonerDetailGameInfo = async event => {
             participant: participants.find(participant => participant.participantId === participantId),
             participantId: participantId,
             gameId: gameId,
-            timestamp: timestamp,
+            gameDuration: gameDuration,
             queue: queue,
             lane: lane,
+            timestamp: timestamp,
             teamId: teamId,
             totalKills: totalKills.totalKills
           });

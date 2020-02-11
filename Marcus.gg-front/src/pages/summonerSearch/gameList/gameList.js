@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import ChampionProfile from "./championProfile/championProfile";
+import GameRecord from "./gameRecord/gameRecord";
 
 const GameList = ({detailGameList}) => {
 
   return (
     <GameListWrapper>
       {detailGameList.data.map(list => {
-        console.log(list)
-        const { lane, participant } = list
+        const { lane, participant, totalKills, gameDuration, queue } = list
         let {championId, stats} = participant;
         return (
           <GameListBox>
             <VictoryBar victory={stats.win}/>
             <ChampionProfile championId={championId} lane={lane}/>
+            <GameRecord participant={participant} totalKills={totalKills} gameDuration={gameDuration} queueId={queue}/>
           </GameListBox>
         )
       })}

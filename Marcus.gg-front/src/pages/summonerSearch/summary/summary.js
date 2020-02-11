@@ -12,7 +12,7 @@ const SummonerSummary = ({summonerInfo}) => {
     <SummonerSummaryWrapper>
       <SummonerInfo>
         <ProfileImg>
-          <img src={`https://ddragon.leagueoflegends.com/cdn/10.1.1/img/profileicon/${profileIconId}.png`}
+          <img src={`https://ddragon.leagueoflegends.com/cdn/10.3.1/img/profileicon/${profileIconId}.png`}
                alt={`no Icon`}
           />
           <LevelBox>
