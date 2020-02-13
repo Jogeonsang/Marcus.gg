@@ -13,6 +13,7 @@ import CardView from "../../commons/CardView/CardView";
 import LeagueInfo from "./leagueInfo/leagueInfo";
 import RecentChampionList from "./recentChampionList/recentChampionList";
 import GameList from "./gameList/gameList";
+import RecentRecord from "./recentRecord/recentRecord";
 
 const SummonerSearch = ({location}) => {
 
@@ -64,9 +65,12 @@ const SummonerSearch = ({location}) => {
           <RecentChampionList recentChampion={recentChampion}/>
         </CardView>*/}
       </SummonerProfileColumn>
-      <CardView flexGrow={10}>
-        <GameList detailGameList={detailGameList}/>
-      </CardView>
+      <SummonerRecentRecordColumn>
+        <RecentRecord detailGameList={detailGameList}/>
+        <CardView flexGrow={10}>
+          <GameList detailGameList={detailGameList}/>
+        </CardView>
+      </SummonerRecentRecordColumn>
     </SummonerContainer>
   )
 };
@@ -84,6 +88,10 @@ const SummonerProfileColumn = styled.div`
   flex-direction: column;
 `;
 
+const SummonerRecentRecordColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const SummonerWrapper = styled.div`
   position: absolute;
   top: 0;

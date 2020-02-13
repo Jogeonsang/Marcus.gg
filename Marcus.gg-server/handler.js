@@ -127,16 +127,18 @@ module.exports.SummonerRecentChampion = async event => {
 module.exports.SummonerDetailGameInfo = async event => {
   let {accountId, summonerName, endIndex} = event.pathParameters;
   const enCodeSummonerName = encodeURI(summonerName);
+  console.log(summonerName);
   const getMatches = axios.get(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}?endIndex=${endIndex}&api_key=${api_key}`);
   const setMatchDetail = async (matches) => {
     const matchDetail = [];
+    const recentRecordDetail = [];
     await Promise.all(matches.map(async (matche) => {
       const {gameId, queue, lane, timestamp} = matche;
       await axios
         .get(`https://kr.api.riotgames.com/lol/match/v4/matches/${gameId}?api_key=${api_key}`)
         .then(each => {
           const {participants, participantIdentities, gameDuration, queueId} = each.data;
-          const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName === summonerName).participantId;
+          const participantId = Object.values(participantIdentities).find(participant => participant.player.summonerName.toLowerCase() === summonerName.toLowerCase()).participantId;
           const teamId = Object.values(participants).find(participant => participant.participantId === participantId).teamId;
           const totalKills = participants.reduce((a,b) => {
             if(teamId === b.teamId) {
@@ -157,9 +159,9 @@ module.exports.SummonerDetailGameInfo = async event => {
           });
         })
     }));
-
     return matchDetail.sort((a, b) => b.timestamp - a.timestamp);
-  };
+
+    };
   return getMatches.then(async fetchMatch => {
     const {matches} = fetchMatch.data;
     return Promise.all(

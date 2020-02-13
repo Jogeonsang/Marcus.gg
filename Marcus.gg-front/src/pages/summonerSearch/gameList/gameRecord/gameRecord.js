@@ -14,7 +14,6 @@ import {getPlayTime, getQueueType} from "../../../../commons/gameUtils";
 const GameRecord = ({participant, totalKills, gameDuration, queueId}) => {
   const {stats} = participant;
   let {kills, deaths, assists, wardsPlaced, wardsKilled, totalMinionsKilled, neutralMinionsKilled, totalDamageDealtToChampions} = stats;
-  console.log('totalDamageDealtToChampions:', totalDamageDealtToChampions);
   return (
     <GameRecordWrapper>
       <WinsLose win={stats.win}>
@@ -30,6 +29,7 @@ const GameRecord = ({participant, totalKills, gameDuration, queueId}) => {
       </TwoLineWrapper>
       <TwoLineWrapper>
         <WardPoint>
+          {/**설치한 와드수 / 제거한 와드수**/}
           {`${wardsPlaced} / ${wardsKilled}`}
         </WardPoint>
         <InvolvementRate>

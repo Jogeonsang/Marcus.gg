@@ -4,7 +4,6 @@ import {useChampion} from "../../../../commons/context";
 import {getKDA} from "../../../../commons/calculationUtil";
 
 const RecentChampion = ({data}) => {
-  console.log('data:',data)
   const [champion] = useChampion(data.championId);
   return (
     <RecentChampionWrapper>

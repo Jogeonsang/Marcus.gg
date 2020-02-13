@@ -24,9 +24,6 @@ const GameList = ({detailGameList}) => {
 
 export default GameList;
 
-const WrapperMoving = keyframes`
-  
-`;
 const GameListWrapper = styled.div`
   display: flex;
   flex-direction: column;
