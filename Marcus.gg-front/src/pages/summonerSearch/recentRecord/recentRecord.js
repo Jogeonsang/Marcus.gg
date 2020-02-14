@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import RecentSummary from "./recentSummary/recentSummary";
+import RecentUsingChampionList from "./recentUsingChampionList/recentUsingChampionList";
 
 const RecentRecord = ({detailGameList}) => {
   const [recordData, setRecordData] = useState([]);
@@ -28,6 +29,7 @@ const RecentRecord = ({detailGameList}) => {
     <RecentRecordWrapper>
       <RecentRecordBox>
         <RecentSummary data={recordData}/>
+        <RecentUsingChampionList data={recordData}/>
       </RecentRecordBox>
     </RecentRecordWrapper>
   )
