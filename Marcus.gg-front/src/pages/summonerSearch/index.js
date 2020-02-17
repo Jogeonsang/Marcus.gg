@@ -14,6 +14,7 @@ import LeagueInfo from "./leagueInfo/leagueInfo";
 import RecentChampionList from "./recentChampionList/recentChampionList";
 import GameList from "./gameList/gameList";
 import RecentRecord from "./recentRecord/recentRecord";
+import {useChampion} from "../../commons/context";
 
 const SummonerSearch = ({location}) => {
 
@@ -23,27 +24,31 @@ const SummonerSearch = ({location}) => {
   const [leagueInfo, setLeagueInfo] = useState([]);
   const [recentChampion, setRecentChampion] = useState({});
   const [detailGameList, setDetailGameList] = useState([]);
+  const [mainChampion, setMainChampion] = useState(0);
+  const [champion] = useChampion(mainChampion.championId);
+  const sleep = m => new Promise(r => setTimeout(r, m));
   useEffect(() => {
     setIsLoading(true);
     const summonerName = queryString.parse(location.search).summonerName;
-    getSummonerInfo(summonerName).then(res => {
+    getSummonerInfo(summonerName).then(async res => {
       if (res.data) {
         const {accountId, id: encryptedSummonerId} = res.data.data;
-        Promise.all([
-          getSummonerLeagueInfo(encryptedSummonerId),
-          getDetailGameList(accountId, summonerName),
-          // getRecentChampion(accountId, summonerName),
-        ]).then(([fetchLeagueInfo, fetchDetailGameList, fetchRecentChampion,]) => {
-          setLeagueInfo(fetchLeagueInfo.data.data);
-          setDetailGameList(fetchDetailGameList.data);
-          // setRecentChampion(fetchRecentChampion.data);
-          setSummonerInfo(res.data);
-          setIsLoading(false);
-        })
+        const fetchLeagueInfo = await getSummonerLeagueInfo(encryptedSummonerId);
+        await sleep(1000);
+        const fetchDetailGameList = await getDetailGameList(accountId, summonerName);
+        await sleep(1000);
+        const fetchRecentChampion = await getRecentChampion(accountId, summonerName);
+        await sleep(1000);
+
+        await setLeagueInfo(fetchLeagueInfo.data.data);
+        await setDetailGameList(fetchDetailGameList.data);
+        await setRecentChampion(fetchRecentChampion.data);
+        await setSummonerInfo(res.data);
+        await setMainChampion(fetchRecentChampion.data.data[0]);
+        await setIsLoading(false);
       }
     });
   }, []);
-
   if (isLoading) {
     return (
       <div>
@@ -53,31 +58,36 @@ const SummonerSearch = ({location}) => {
   }
 
   return (
-    <SummonerContainer>
-      <SummonerProfileColumn>
-        <CardView>
-          <SummonerSummary summonerInfo={summonerInfo.data}/>
-        </CardView>
-        <CardView>
-          <LeagueInfo leagueInfo={leagueInfo}/>
-        </CardView>
-        {/*<CardView>
-          <RecentChampionList recentChampion={recentChampion}/>
-        </CardView>*/}
-      </SummonerProfileColumn>
-      <SummonerRecentRecordColumn>
-        <RecentRecord detailGameList={detailGameList}/>
-        <CardView flexGrow={10}>
-          <GameList detailGameList={detailGameList}/>
-        </CardView>
-      </SummonerRecentRecordColumn>
-    </SummonerContainer>
+    <>
+      <SummonerContainer>
+        <SummonerProfileColumn>
+          <CardView>
+            <SummonerSummary summonerInfo={summonerInfo.data}/>
+          </CardView>
+          <CardView>
+            <LeagueInfo leagueInfo={leagueInfo}/>
+          </CardView>
+          <CardView>
+            <RecentChampionList recentChampion={recentChampion}/>
+          </CardView>
+        </SummonerProfileColumn>
+        <SummonerRecentRecordColumn>
+          <RecentRecord detailGameList={detailGameList}/>
+          <CardView flexGrow={10}>
+            <GameList detailGameList={detailGameList}/>
+          </CardView>
+        </SummonerRecentRecordColumn>
+      </SummonerContainer>
+      <SummonerWrapper championId={champion.id}/>
+    </>
   )
 };
 
 export default SummonerSearch
 
 const SummonerContainer = styled.div`
+  position: relative;
+  z-index: 2;
   display: flex;
   padding: 50px 10%;
 `;
@@ -93,17 +103,14 @@ const SummonerRecentRecordColumn = styled.div`
   flex-direction: column;
 `;
 const SummonerWrapper = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(
-            to left top,
-            rgba(20, 20, 20, 0) 10%,
-            rgba(20, 20, 20, 0.25) 25%,
-            rgba(20, 20, 20, 0.5) 50%,
-            rgba(20, 20, 20, 0.75) 75%,
-            rgba(20, 20, 20, 1) 100%
-          ), url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Qiyana_2.jpg");
-        background-size: cover;
+  transform: scale(1.1);
+  background-image: url(${props => `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${props.championId}_0.jpg`});
+  background-size: cover;
   opacity: 0.5;
 `;

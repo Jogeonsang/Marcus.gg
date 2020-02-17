@@ -6,7 +6,7 @@ const RecentChampionList = ({recentChampion}) => {
   return (
     <RecentChampionListWrapper>
       <Title>
-        시즌 10 챔피언 통계
+        시즌 2020 최근 10게임 챔피언 통계
       </Title>
       {recentChampion.data.map(each => (
           <RecentChampion data={each}/>
