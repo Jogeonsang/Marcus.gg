@@ -15,6 +15,7 @@ import RecentChampionList from "./recentChampionList/recentChampionList";
 import GameList from "./gameList/gameList";
 import RecentRecord from "./recentRecord/recentRecord";
 import {useChampion} from "../../commons/context";
+import {customAsync} from "../../commons/asyncUtils";
 
 const SummonerSearch = ({location}) => {
 
@@ -26,26 +27,27 @@ const SummonerSearch = ({location}) => {
   const [detailGameList, setDetailGameList] = useState([]);
   const [mainChampion, setMainChampion] = useState(0);
   const [champion] = useChampion(mainChampion.championId);
-  const sleep = m => new Promise(r => setTimeout(r, m));
+  const sleep = (api, m) => new Promise(r => {
+    setTimeout(api, m, r)
+  });
   useEffect(() => {
     setIsLoading(true);
     const summonerName = queryString.parse(location.search).summonerName;
     getSummonerInfo(summonerName).then(async res => {
       if (res.data) {
         const {accountId, id: encryptedSummonerId} = res.data.data;
-        const fetchLeagueInfo = await getSummonerLeagueInfo(encryptedSummonerId);
-        await sleep(1000);
-        const fetchDetailGameList = await getDetailGameList(accountId, summonerName);
-        await sleep(1000);
-        const fetchRecentChampion = await getRecentChampion(accountId, summonerName);
-        await sleep(1000);
-
-        await setLeagueInfo(fetchLeagueInfo.data.data);
-        await setDetailGameList(fetchDetailGameList.data);
-        await setRecentChampion(fetchRecentChampion.data);
-        await setSummonerInfo(res.data);
-        await setMainChampion(fetchRecentChampion.data.data[0]);
-        await setIsLoading(false);
+        Promise.all([
+          await customAsync(getSummonerLeagueInfo(encryptedSummonerId), 1000),
+          await customAsync(getDetailGameList(accountId, summonerName), 1000),
+          await customAsync(getRecentChampion(accountId, summonerName), 1000),
+        ]).then(([fetchLeagueInfo, fetchDetailGameList, fetchRecentChampion,]) => {
+          setLeagueInfo(fetchLeagueInfo.data.data);
+          setDetailGameList(fetchDetailGameList.data);
+          setRecentChampion(fetchRecentChampion.data);
+          setSummonerInfo(res.data);
+          setMainChampion(fetchRecentChampion.data.data[0]);
+          setIsLoading(false);
+        })
       }
     });
   }, []);
