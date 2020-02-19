@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled, { keyframes }from 'styled-components';
 import ChampionProfile from "./championProfile/championProfile";
 import GameRecord from "./gameRecord/gameRecord";
+import MoreButton from "../../../commons/moreButton/moreButton";
 
 const GameList = ({detailGameList}) => {
+    const [gameList, setGameList] = useState(detailGameList || []);
+    const [pagination, setPagination] = useState({});
 
+    useEffect(() => {
+      const {startIndex, endIndex} = pagination;
+      setPagination({
+        startIndex: startIndex+10,
+        endIndex: endIndex+10,
+      })
+    }, [pagination]);
   return (
     <GameListWrapper>
-      {detailGameList.data.map(list => {
+      {gameList.data.map(list => {
         const { lane, participant, totalKills, gameDuration, queue } = list
         let {championId, stats} = participant;
         return (
@@ -18,11 +28,12 @@ const GameList = ({detailGameList}) => {
           </GameListBox>
         )
       })}
+      <MoreButton/>
     </GameListWrapper>
   )
 };
 
-export default GameList;
+export default React.memo(GameList);
 
 const GameListWrapper = styled.div`
   display: flex;
